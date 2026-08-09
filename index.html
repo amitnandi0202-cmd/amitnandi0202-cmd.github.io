@@ -39,6 +39,14 @@ body{overflow-x:hidden}.nav{position:fixed;top:0;left:0;right:0;height:68px;z-in
  <section class="row"><h2>Adventures 🚆</h2><div class="cards" id="adventures"></div></section>
 </main>
 
+<section class="admin" id="add">
+ <div class="adminBox">
+  <h2>Add your videos</h2>
+  <p class="hint">Choose video files from your computer. They stay in this browser and are not uploaded anywhere by this demo. For a permanent online site, you can later connect cloud storage.</p>
+  <label class="file">＋ Choose Videos<input type="file" id="files" accept="video/*" multiple></label>
+  <p class="hint">Tip: after selecting files, click a card to play it. Use memorable filenames such as <b>First_Trip.mp4</b> or <b>Birthday_2026.mp4</b>.</p>
+ </div>
+</section>
 
 <footer class="footer">VanyaFlix • Made for the memories ✦</footer>
 
@@ -66,47 +74,9 @@ function card(v){
  return d;
 }
 function render(){
-
-    ["continue","memoriesRow","favoritesRow","adventures"].forEach(id => {
-
-        const section = document.getElementById(id);
-
-        if(section){
-            section.innerHTML = "";
-        }
-
-    });
-
-    library.forEach(v => {
-
-        const section = document.getElementById(v.cat || "memoriesRow");
-
-        if(section){
-            section.appendChild(card(v));
-        }
-
-    });
-
-    demo.forEach(v => {
-
-        let sectionId = "memoriesRow";
-
-        if(v.cat === "favorites"){
-            sectionId = "favoritesRow";
-        }
-
-        if(v.cat === "adventures"){
-            sectionId = "adventures";
-        }
-
-        const section = document.getElementById(sectionId);
-
-        if(section){
-            section.appendChild(card(v));
-        }
-
-    });
-}
+ ["continue","memoriesRow","favoritesRow","adventures"].forEach(id=>document.getElementById(id).innerHTML="");
+ library.forEach(v=>{document.getElementById(v.cat||"memoriesRow").appendChild(card(v));});
+ demo.forEach(v=>document.getElementById(v.cat==="favorites"?"favoritesRow":v.cat==="adventures"?"adventures":"memoriesRow").appendChild(card(v)));
 }
 function openVideo(src,title){
     const m = document.getElementById("modal");
