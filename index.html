@@ -78,8 +78,54 @@ function render(){
  library.forEach(v=>{document.getElementById(v.cat||"memoriesRow").appendChild(card(v));});
  demo.forEach(v=>document.getElementById(v.cat==="favorites"?"favoritesRow":v.cat==="adventures"?"adventures":"memoriesRow").appendChild(card(v)));
 }
-function openVideo(src,title){const m=document.getElementById("modal"),v=document.getElementById("video");document.getElementById("videoTitle").textContent=title;v.src=src;m.classList.add("open");v.play().catch(()=>{});}
-document.getElementById("close").onclick=()=>{const v=document.getElementById("video");v.pause();v.removeAttribute("src");document.getElementById("modal").classList.remove("open")};
+function openVideo(src,title){
+    const m = document.getElementById("modal");
+    const v = document.getElementById("video");
+
+    document.getElementById("videoTitle").textContent = title;
+
+    if(src.includes("youtube.com/embed/")){
+        v.src = "";
+        v.style.display = "none";
+
+        let iframe = document.getElementById("youtubePlayer");
+
+        if(!iframe){
+            iframe = document.createElement("iframe");
+            iframe.id = "youtubePlayer";
+            iframe.style.width = "100%";
+            iframe.style.height = "600px";
+            iframe.style.border = "0";
+            iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+            iframe.allowFullscreen = true;
+
+            v.parentElement.insertBefore(iframe, v);
+        }
+
+        iframe.src = src;
+        iframe.style.display = "block";
+    } else {
+        v.style.display = "block";
+        v.src = src;
+        v.play().catch(()=>{});
+    }
+
+    m.classList.add("open");
+}
+document.getElementById("close").onclick=()=>{
+    const v = document.getElementById("video");
+    const iframe = document.getElementById("youtubePlayer");
+
+    v.pause();
+    v.removeAttribute("src");
+
+    if(iframe){
+        iframe.src = "";
+        iframe.style.display = "none";
+    }
+
+    document.getElementById("modal").classList.remove("open");
+};
 document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")document.getElementById("close").click()};
 document.getElementById("heroPlay").onclick=()=>{const v=library[0];if(v)openVideo(v.src,v.title);else document.querySelector("#memories").scrollIntoView({behavior:"smooth"})};
 document.getElementById("files").onchange=e=>{
