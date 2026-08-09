@@ -66,9 +66,47 @@ function card(v){
  return d;
 }
 function render(){
- ["continue","memoriesRow","favoritesRow","adventures"].forEach(id=>document.getElementById(id).innerHTML="");
- library.forEach(v=>{document.getElementById(v.cat||"memoriesRow").appendChild(card(v));});
- demo.forEach(v=>document.getElementById(v.cat==="favorites"?"favoritesRow":v.cat==="adventures"?"adventures":"memoriesRow").appendChild(card(v)));
+
+    ["continue","memoriesRow","favoritesRow","adventures"].forEach(id => {
+
+        const section = document.getElementById(id);
+
+        if(section){
+            section.innerHTML = "";
+        }
+
+    });
+
+    library.forEach(v => {
+
+        const section = document.getElementById(v.cat || "memoriesRow");
+
+        if(section){
+            section.appendChild(card(v));
+        }
+
+    });
+
+    demo.forEach(v => {
+
+        let sectionId = "memoriesRow";
+
+        if(v.cat === "favorites"){
+            sectionId = "favoritesRow";
+        }
+
+        if(v.cat === "adventures"){
+            sectionId = "adventures";
+        }
+
+        const section = document.getElementById(sectionId);
+
+        if(section){
+            section.appendChild(card(v));
+        }
+
+    });
+}
 }
 function openVideo(src,title){
     const m = document.getElementById("modal");
