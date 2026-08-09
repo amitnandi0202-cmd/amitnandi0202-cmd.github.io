@@ -121,13 +121,7 @@ document.getElementById("close").onclick=()=>{
 };
 document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")document.getElementById("close").click()};
 document.getElementById("heroPlay").onclick=()=>{const v=library[0];if(v)openVideo(v.src,v.title);else document.querySelector("#memories").scrollIntoView({behavior:"smooth"})};
-document.getElementById("files").onchange=e=>{
- [...e.target.files].forEach((file,i)=>{
-   const url=URL.createObjectURL(file);
-   library.push({title:file.name.replace(/\.[^.]+$/,"").replace(/[_-]+/g," "),cat:i%3===0?"favorites":i%3===1?"adventures":"memories",src:url,img:""});
- });
- localStorage.setItem("vanyaflixLibrary",JSON.stringify(library)); render();
-};
+
 document.getElementById("searchBtn").onclick=()=>{document.getElementById("searchBox").classList.toggle("open");document.getElementById("search").focus()};
 document.getElementById("search").oninput=e=>{
  const q=e.target.value.toLowerCase();
