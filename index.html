@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VanyaFlix — Our Memories</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#080808;color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{overflow-x:hidden}.nav{position:fixed;top:0;left:0;right:0;height:68px;z-index:20;display:flex;align-items:center;padding:0 4%;background:linear-gradient(#050505,transparent);transition:.3s}
+.nav.scrolled{background:#080808}.logo{font-size:25px;font-weight:900;color:#e50914;letter-spacing:-1px}.navlinks{display:flex;gap:22px;margin-left:35px;font-size:14px}.navlinks a{color:#ddd;text-decoration:none}.navlinks a:hover{color:#fff}.actions{margin-left:auto;display:flex;gap:16px;align-items:center}.icon{background:none;border:0;color:white;font-size:19px;cursor:pointer}.profile{width:32px;height:32px;border-radius:5px;background:linear-gradient(135deg,#e50914,#7b0010);display:grid;place-items:center;font-weight:bold}
+.hero{height:78vh;min-height:550px;position:relative;display:flex;align-items:center;padding:100px 5% 60px;background:linear-gradient(90deg,#080808 0%,rgba(8,8,8,.78) 32%,rgba(8,8,8,.15) 70%),linear-gradient(0deg,#080808 0%,transparent 35%),radial-gradient(circle at 75% 35%,#5c1824 0,#211016 27%,#080808 70%)}
+.heroContent{max-width:650px}.eyebrow{font-size:13px;letter-spacing:3px;color:#ddd;text-transform:uppercase;margin-bottom:12px}.hero h1{font-size:clamp(44px,7vw,82px);line-height:.95;margin:0 0 20px;letter-spacing:-3px}.hero p{font-size:18px;line-height:1.55;color:#ddd;max-width:570px}.meta{color:#bbb;margin:14px 0}.btn{border:0;border-radius:5px;padding:12px 23px;font-weight:bold;font-size:15px;cursor:pointer;margin-right:8px}.play{background:#fff;color:#000}.more{background:#555b;color:#fff}.rows{padding:0 4% 60px;margin-top:-70px;position:relative;z-index:3}.row{margin:32px 0}.row h2{font-size:21px;margin:0 0 14px}.cards{display:flex;gap:12px;overflow-x:auto;padding:4px 0 16px;scrollbar-width:none}.cards::-webkit-scrollbar{display:none}.card{flex:0 0 245px;height:138px;border-radius:5px;overflow:hidden;position:relative;background:#181818;cursor:pointer;transition:.25s}.card:hover{transform:scale(1.06);z-index:5}.thumb{width:100%;height:100%;object-fit:cover;background:linear-gradient(135deg,#202020,#101010)}.overlay{position:absolute;inset:auto 0 0;padding:45px 12px 10px;background:linear-gradient(transparent,rgba(0,0,0,.9));font-weight:bold}.empty{border:1px dashed #444;color:#999;padding:40px;text-align:center;border-radius:6px;min-width:300px}.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:50;align-items:center;justify-content:center;padding:25px}.modal.open{display:flex}.player{width:min(1050px,96vw);background:#111;border-radius:8px;overflow:hidden}.player video{display:block;width:100%;max-height:75vh;background:#000}.playerbar{padding:15px 18px;display:flex;align-items:center}.close{margin-left:auto;background:none;border:0;color:#fff;font-size:27px;cursor:pointer}.searchBox{position:absolute;right:95px;top:14px;display:none}.searchBox.open{display:block}.searchBox input{background:#111;border:1px solid #555;color:#fff;padding:9px 12px;border-radius:4px;width:230px}.admin{padding:0 4% 70px}.adminBox{background:#111;border:1px solid #252525;border-radius:8px;padding:22px}.adminBox h2{margin-top:0}.file{display:inline-block;background:#e50914;padding:11px 16px;border-radius:5px;cursor:pointer;font-weight:bold}.file input{display:none}.hint{color:#888;font-size:13px;line-height:1.5}.footer{border-top:1px solid #222;color:#777;padding:30px 4%;font-size:13px}
+@media(max-width:700px){.navlinks{display:none}.hero{min-height:560px;height:70vh}.hero p{font-size:15px}.card{flex-basis:190px;height:107px}.rows{margin-top:-35px}.searchBox{right:60px}.searchBox input{width:180px}}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <div class="logo">VANYAFLIX</div>
+  <div class="navlinks"><a href="#home">Home</a><a href="#memories">Memories</a><a href="#favorites">Favorites</a><a href="#add">Add Videos</a></div>
+  <div class="actions"><button class="icon" id="searchBtn">⌕</button><div class="profile">A</div></div>
+  <div class="searchBox" id="searchBox"><input id="search" placeholder="Search memories..."></div>
+</nav>
+
+<section class="hero" id="home">
+ <div class="heroContent">
+  <div class="eyebrow">A personal collection</div>
+  <h1>OUR<br>STORY.</h1>
+  <div class="meta">A • Vanya • Memories</div>
+  <p>A private little cinema for the moments worth replaying — adventures, laughs, random days, and everything in between.</p>
+  <button class="btn play" id="heroPlay">▶ Play</button>
+  <button class="btn more" onclick="document.querySelector('#memories').scrollIntoView({behavior:'smooth'})">ⓘ Browse Memories</button>
+ </div>
+</section>
+
+<main class="rows" id="memories">
+ <section class="row"><h2>Continue Watching</h2><div class="cards" id="continue"></div></section>
+ <section class="row"><h2>Our Memories ❤️</h2><div class="cards" id="memoriesRow"></div></section>
+ <section class="row" id="favorites"><h2>Favorites ⭐</h2><div class="cards" id="favoritesRow"></div></section>
+ <section class="row"><h2>Adventures 🚆</h2><div class="cards" id="adventures"></div></section>
+</main>
+
+<section class="admin" id="add">
+ <div class="adminBox">
+  <h2>Add your videos</h2>
+  <p class="hint">Choose video files from your computer. They stay in this browser and are not uploaded anywhere by this demo. For a permanent online site, you can later connect cloud storage.</p>
+  <label class="file">＋ Choose Videos<input type="file" id="files" accept="video/*" multiple></label>
+  <p class="hint">Tip: after selecting files, click a card to play it. Use memorable filenames such as <b>First_Trip.mp4</b> or <b>Birthday_2026.mp4</b>.</p>
+ </div>
+</section>
+
+<footer class="footer">VanyaFlix • Made for the memories ✦</footer>
+
+<div class="modal" id="modal">
+ <div class="player">
+  <video id="video" controls></video>
+  <div class="playerbar"><strong id="videoTitle">Memory</strong><button class="close" id="close">×</button></div>
+ </div>
+</div>
+
+<script>
+const demo=[
+ {title:"Our First Memory",cat:"memories",img:"",src:""},
+ {title:"That Random Day",cat:"memories",img:"",src:""},
+ {title:"Best Day Ever",cat:"favorites",img:"",src:""},
+ {title:"The Adventure",cat:"adventures",img:"",src:""}
+];
+let library=JSON.parse(localStorage.getItem("vanyaflixLibrary")||"[]");
+const all=()=>[...library,...demo];
+function escape(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function card(v){
+ const d=document.createElement("div"); d.className="card"; d.dataset.title=v.title.toLowerCase();
+ d.innerHTML=`${v.img?`<img class="thumb" src="${v.img}">`:`<div class="thumb"></div>`}<div class="overlay">${escape(v.title)}</div>`;
+ d.onclick=()=>{if(v.src)openVideo(v.src,v.title);else alert("Add a video for this memory using “Choose Videos” below.");};
+ return d;
+}
+function render(){
+ ["continue","memoriesRow","favoritesRow","adventures"].forEach(id=>document.getElementById(id).innerHTML="");
+ library.forEach(v=>{document.getElementById(v.cat||"memoriesRow").appendChild(card(v));});
+ demo.forEach(v=>document.getElementById(v.cat==="favorites"?"favoritesRow":v.cat==="adventures"?"adventures":"memoriesRow").appendChild(card(v)));
+}
+function openVideo(src,title){const m=document.getElementById("modal"),v=document.getElementById("video");document.getElementById("videoTitle").textContent=title;v.src=src;m.classList.add("open");v.play().catch(()=>{});}
+document.getElementById("close").onclick=()=>{const v=document.getElementById("video");v.pause();v.removeAttribute("src");document.getElementById("modal").classList.remove("open")};
+document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")document.getElementById("close").click()};
+document.getElementById("heroPlay").onclick=()=>{const v=library[0];if(v)openVideo(v.src,v.title);else document.querySelector("#memories").scrollIntoView({behavior:"smooth"})};
+document.getElementById("files").onchange=e=>{
+ [...e.target.files].forEach((file,i)=>{
+   const url=URL.createObjectURL(file);
+   library.push({title:file.name.replace(/\.[^.]+$/,"").replace(/[_-]+/g," "),cat:i%3===0?"favorites":i%3===1?"adventures":"memories",src:url,img:""});
+ });
+ localStorage.setItem("vanyaflixLibrary",JSON.stringify(library)); render();
+};
+document.getElementById("searchBtn").onclick=()=>{document.getElementById("searchBox").classList.toggle("open");document.getElementById("search").focus()};
+document.getElementById("search").oninput=e=>{
+ const q=e.target.value.toLowerCase();
+ document.querySelectorAll(".card").forEach(c=>c.style.display=c.dataset.title.includes(q)?"block":"none");
+};
+addEventListener("scroll",()=>document.getElementById("nav").classList.toggle("scrolled",scrollY>30));
+render();
+</script>
+</body>
+</html>
